@@ -1,6 +1,7 @@
 package collections
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -58,4 +59,52 @@ func TestSubtract(t *testing.T) {
 			assert.Equal(t, testCase.expected, actual)
 		})
 	}
+}
+
+func TestGetElement(t *testing.T) {
+	t.Parallel()
+
+	testCases := []struct {
+		description string
+		list     []string
+		index    int
+		expected string
+	}{
+		{"full list, first element", []string{"A", "B", "C"}, 0, "A"},
+		{"full list, last element", []string{"A", "B", "C"}, 2, "C"},
+		{"single-element list, first element", []string{"A"}, 0, "A"},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.description, func(t *testing.T) {
+			actual := GetElement(t, testCase.list, testCase.index)
+			assert.Equal(t, testCase.expected, actual)
+		})
+	}
+}
+
+func TestGetElementWithFailure(t *testing.T) {
+	t.Parallel()
+
+	testCases := []struct {
+		description string
+		list     []string
+		index    int
+		expected string
+	}{
+		{"full list, element too large", []string{"A", "B", "C"}, 4, "A"},
+		//{"full list, element too small", []string{"A", "B", "C"}, -1, "C"},
+	}
+
+	for _, testCase := range testCases {
+		GetElementThatPanics(t, testCase.description, testCase.list, testCase.index)
+	}
+}
+
+func GetElementThatPanics(t *testing.T, description string, list []string, index int) {
+	assert.Panics(
+		t,
+		func() { GetElement(t, list, index) },
+		fmt.Sprintf("Test Case: %s\nExpected code to fail with invalid index.", description),
+	)
 }
