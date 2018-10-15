@@ -3,14 +3,15 @@ package aws
 import (
 	"testing"
 
+	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/ssh"
-	"io/ioutil"
-	"os"
-	"fmt"
-	"path/filepath"
 )
 
 // Ec2Keypair is an EC2 key pair.
@@ -55,7 +56,7 @@ func CreateAndImportEC2KeyPairE(t *testing.T, region string, name string) (*Ec2K
 			return nil, err
 		}
 
-		keyPair:= &ssh.KeyPair{PublicKey: string(sshPubKey), PrivateKey: string(sshPrivateKey)}
+		keyPair := &ssh.KeyPair{PublicKey: string(sshPubKey), PrivateKey: string(sshPrivateKey)}
 
 		return ImportEC2KeyPairE(t, region, name, keyPair)
 	} else {
