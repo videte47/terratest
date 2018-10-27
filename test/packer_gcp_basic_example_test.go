@@ -15,8 +15,7 @@ func TestPackerGCPBasicExample(t *testing.T) {
 	projectID := gcp.GetGoogleProjectIDFromEnvVar(t)
 
 	// Pick a random GCP zone to test in. This helps ensure your code works in all regions.
-	// On October 22, 2018, GCP launched the asia-east2 region, which promptly failed all our tests, so blacklist asia-east2.
-	zone := gcp.GetRandomZone(t, projectID, nil, nil, []string{"asia-east2"})
+	zone := gcp.GetRandomZone(t, projectID, nil, nil)
 
 	packerOptions := &packer.Options{
 		// The path to where the Packer template is located
